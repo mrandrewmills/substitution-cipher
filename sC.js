@@ -3,12 +3,10 @@
 	Name: sC (short for Substitution Cipher)
 	Purpose: I make playing with simple substitution ciphers easy and fun.
 
-	Examples:
+	Example Usage:
 
 	sC.buildKeyword("The Doctor Dances");
 	console.log(sC.keyword); // outputs THEDOCRANS
-
-	sC.buildCipherAlphabet();
 	console.log(sC.alphabet); // outputs ABCDEFGHIJKLMNOPQRSTUVWXYZ
 	console.log(sC.cipherAlphabet); // outputs THEDOCRANSBFGIJKLMPQUVWXYZ
 
@@ -32,24 +30,14 @@ var sC = {
 	plaintext: "",
 
 	// methods
-	buildCipherAlphabet : function buildCypherAlphabet() {
+	buildCipherAlphabet : function buildCipherAlphabet() {
 
 		var result = "";
+
 		var key = this.keyword + this.alphabet;
 
-		// remove all blank spaces and convert to uppercase
+		result = this.distillUniqueUpperAlphas(key);
 
-		key = key.replace(/ /g, "");
-		key = key.toUpperCase();
-
-		// filter out duplicate letter values
-		for (var x = 0; x < key.length; x++) {
-			if (key.indexOf(key[x]) == x) {
-				result += key[x];
-			}
-		}
-
-		// return(result);
 		this.cipherAlphabet = result;
 	},
 
@@ -57,20 +45,11 @@ var sC = {
 
 		var result = "";
 
-		// remove all blank spaces and convert to uppercase
+		result = this.distillUniqueUpperAlphas(key);
 
-		key = key.replace(/ /g, "");
-		key = key.toUpperCase();
-
-		// filter out duplicate letter values
-		for (var x = 0; x < key.length; x++) {
-			if (key.indexOf(key[x]) == x) {
-				result += key[x];
-			}
-		}
-
-		// return(result);
 		this.keyword = result;
+
+		this.buildCipherAlphabet();
 	},
 
 	decrypt : function decrypt(ciphertext) {
@@ -91,6 +70,23 @@ var sC = {
 
 		this.plaintext = plaintext;
 		return plaintext;
+	},
+
+	distillUniqueUpperAlphas: function(phrase) {
+
+		var result = "";
+
+		phrase = phrase.replace(/[^a-zA-Z]/g, "");
+		phrase = phrase.toUpperCase();
+
+		// filter out duplicate letter values
+		for (var x = 0; x < phrase.length; x++) {
+			if (phrase.indexOf(phrase[x]) == x) {
+				result += phrase[x];
+			}
+		}
+
+		return(result);
 	},
 
 	encrypt : function encrypt(plaintext) {
