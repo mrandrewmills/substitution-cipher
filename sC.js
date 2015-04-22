@@ -60,7 +60,7 @@ var sC = {
 		for (x = 0; x < ciphertext.length; x++) {
 			if ( this.alphabet[this.cipherAlphabet.indexOf(ciphertext[x].toUpperCase())] == undefined )
 			{
-				plaintext += " ";
+				plaintext += ciphertext[x];
 			}
 			else
 			{
@@ -98,7 +98,7 @@ var sC = {
 
 			if ( this.cipherAlphabet[this.alphabet.indexOf(plaintext[x].toUpperCase())] == undefined )
 			{
-				ciphertext += " ";
+				ciphertext += plaintext[x];
 			}
 			else
 			{
@@ -109,5 +109,4 @@ var sC = {
 		this.ciphertext = ciphertext;
 		return ciphertext;
 	}
-
 };
