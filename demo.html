@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <script src="sC.js"></script>
+  <style>
+    input { width: 50%; }
+    textarea { width: 50%; height: 150px; }
+  </style>
+</head>
+<body>
+  <h1>Simple Substitution Cipher Demonstration</h1>
+  <p>Passphrase:</p>
+  <input type="text" id="passphrase" class="passphrase">
+  <p>Plaintext Alphabet:</p>
+  <input type="text" id="plainAlpha" class="plainAlpha" readonly="readonly" >
+  <p>Ciphertext Alphabet:</p>
+  <input type="text" id="cipherAlpha" class="cipherAlpha" readonly="readonly">
+
+  <p>Plaintext:</p>
+  <textarea id="plaintext" class="plaintext"></textarea>
+  <p>Ciphertext:</p>
+  <textarea id="ciphertext" class="ciphertext"></textarea>
+
+  <script>
+    // sC.buildKeyword("The quick brown fox jumps over the lazy dog.");
+
+    var pText = document.getElementById("plaintext");
+    var cText = document.getElementById("ciphertext");
+    var pPhrase = document.getElementById("passphrase");
+    var pAlpha = document.getElementById("plainAlpha");
+    var cAlpha = document.getElementById("cipherAlpha");
+
+    sC.cipherAlphabet = sC.alphabet;
+    pAlpha.value = sC.alphabet;
+    cAlpha.value = sC.cipherAlphabet;
+
+    pPhrase.onkeyup = function() {
+      sC.buildKeyword(pPhrase.value);
+      pAlpha.value = sC.alphabet;
+      cAlpha.value = sC.cipherAlphabet;
+    }
+
+    pText.onkeyup = function() {
+      cText.value = sC.encrypt(pText.value);
+    }
+  </script>
+</body>
+</html>
