@@ -43,6 +43,10 @@
     pText.onkeyup = function() {
       cText.value = sC.encrypt(pText.value);
     }
+    
+    cText.onkeyup = function() {
+      pText.value = sC.decrypt(cText.value);
+    }
   </script>
 </body>
 </html>
