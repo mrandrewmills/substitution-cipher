@@ -1,112 +1,135 @@
-/*
-
-	Name: sC (short for Substitution Cipher)
-	Purpose: I make playing with simple substitution ciphers easy and fun.
-
-	Example Usage:
-
-	sC.buildKeyword("The Doctor Dances");
-	console.log(sC.keyword); // outputs THEDOCRANS
-	console.log(sC.alphabet); // outputs ABCDEFGHIJKLMNOPQRSTUVWXYZ
-	console.log(sC.cipherAlphabet); // outputs THEDOCRANSBFGIJKLMPQUVWXYZ
-
-	sC.encrypt("Now is the time for all good people to come to the aid of their party.");
-	console.log(sC.ciphertext);
-	// outputs "IJW NP QAO QNGO CJM TFF RJJD KOJKFO QJ EJGO QJ QAO TND JC QAONM KTMQY "
-
-	sC.decrypt("IJW NP QAO QNGO CJM TFF RJJD KOJKFO QJ EJGO QJ QAO TND JC QAONM KTMQY ");
-	// outputs "NOW IS THE TIME FOR ALL GOOD PEOPLE TO COME TO THE AID OF THEIR PARTY ");
-
-*/
-
+/**
+ * sC.js - JavaScript Object for simple monoalphabetic substitution ciphers
+ * @type {Object}
+ * @namespace
+ */
 var sC = {
 
-	// properties
+        /**
+         * alphabet description
+         * @type {String}
+         */
+        alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
 
-	alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-	cipherAlphabet: "",
-	ciphertext: "",
-	keyword: "",
-	plaintext: "",
+        /**
+         * cipherAlphabet description
+         * @type {String}
+         */
+        cipherAlphabet: "",
 
-	// methods
-	buildCipherAlphabet : function buildCipherAlphabet() {
+        /**
+         * ciphertext description
+         * @type {String}
+         */
+        ciphertext: "",
 
-		var result = "";
+        /**
+         * keyword description
+         * @type {String}
+         */
+        keyword: "",
 
-		var key = this.keyword + this.alphabet;
+        /**
+         * plaintext description
+         * @type {String}
+         */
+        plaintext: "",
 
-		result = this.distillUniqueUpperAlphas(key);
+        /**
+         * buildCipherAlphabet description
+         */
+        buildCipherAlphabet : function buildCipherAlphabet() {
 
-		this.cipherAlphabet = result;
-	},
+            "use strict";
 
-	buildKeyword : function buildKeyword(key) {
+            var key = this.keyword + this.alphabet;
 
-		var result = "";
+            this.cipherAlphabet = this.distillUniqueUpperAlphas(key);
+        },
 
-		result = this.distillUniqueUpperAlphas(key);
+        /**
+         * buildKeyword description
+         * @param {String} key description
+         */
+        buildKeyword : function buildKeyword(key) {
 
-		this.keyword = result;
+            "use strict";
 
-		this.buildCipherAlphabet();
-	},
+            this.keyword = this.distillUniqueUpperAlphas(key);
 
-	decrypt : function decrypt(ciphertext) {
+            this.buildCipherAlphabet();
+        },
 
-		var plaintext = "";
-		this.ciphertext = ciphertext;
+        /**
+         * decrypt description
+         * @param  {string} ciphertext description
+         * @return {string}            description
+         */
+        decrypt : function decrypt(ciphertext) {
 
-		for (x = 0; x < ciphertext.length; x++) {
-			if ( this.alphabet[this.cipherAlphabet.indexOf(ciphertext[x].toUpperCase())] == undefined )
-			{
-				plaintext += ciphertext[x];
-			}
-			else
-			{
-				plaintext += this.alphabet[this.cipherAlphabet.indexOf(ciphertext[x].toUpperCase())];
-			}
-		}
+            "use strict";
 
-		this.plaintext = plaintext;
-		return plaintext;
-	},
+            var x, plaintext = "";
+            this.ciphertext = ciphertext;
 
-	distillUniqueUpperAlphas: function(phrase) {
+            for (x = 0; x < ciphertext.length; x += 1) {
+                if (this.alphabet[this.cipherAlphabet.indexOf(ciphertext[x].toUpperCase())] === undefined) {
+                    plaintext += ciphertext[x];
+                } else {
+                    plaintext += this.alphabet[this.cipherAlphabet.indexOf(ciphertext[x].toUpperCase())];
+                }
+            }
 
-		var result = "";
+            this.plaintext = plaintext;
+            return plaintext;
+        },
 
-		phrase = phrase.replace(/[^a-zA-Z]/g, "");
-		phrase = phrase.toUpperCase();
+        /**
+         * distillUniqueUpperAlphas description
+         * @param {String} phrase description
+         */
+        distillUniqueUpperAlphas: function (phrase) {
 
-		// filter out duplicate letter values
-		for (var x = 0; x < phrase.length; x++) {
-			if (phrase.indexOf(phrase[x]) == x) {
-				result += phrase[x];
-			}
-		}
+            "use strict";
 
-		return(result);
-	},
+            var x, result = "";
 
-	encrypt : function encrypt(plaintext) {
+            phrase = phrase.replace(/[^a-zA-Z]/g, "");
+            phrase = phrase.toUpperCase();
 
-		var ciphertext = "";
-		this.plaintext = plaintext;
+            // filter out duplicate letter values
+            for (x = 0; x < phrase.length; x += 1) {
+                if (phrase.indexOf(phrase[x]) === x) {
+                    result += phrase[x];
+                }
+            }
 
-		for (x = 0; x < plaintext.length; x++) {
+            return result;
+        },
 
-			if ( this.cipherAlphabet[this.alphabet.indexOf(plaintext[x].toUpperCase())] == undefined )
-			{
-				ciphertext += plaintext[x];
-			}
-			else
-			{
-				ciphertext += this.cipherAlphabet[this.alphabet.indexOf(plaintext[x].toUpperCase())];
-			}
-		}
+        /**
+         * encrypt description
+         * @param  {string} plaintext description
+         * @return {string}           description
+         */
+        encrypt : function encrypt(plaintext) {
 
-		this.ciphertext = ciphertext;
-		return ciphertext;
-	}
-};
+            "use strict";
+
+            var x, ciphertext = "";
+            this.plaintext = plaintext;
+
+            for (x = 0; x < plaintext.length; x += 1) {
+
+                if (this.cipherAlphabet[this.alphabet.indexOf(plaintext[x].toUpperCase())] === undefined) {
+                    ciphertext += plaintext[x];
+                } else {
+                    ciphertext += this.cipherAlphabet[this.alphabet.indexOf(plaintext[x].toUpperCase())];
+                }
+            }
+
+            this.ciphertext = ciphertext;
+
+            return ciphertext;
+        }
+    };
