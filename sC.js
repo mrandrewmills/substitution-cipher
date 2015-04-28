@@ -81,6 +81,7 @@ var sC = {
             }
 
             this.plaintext = plaintext;
+
             return plaintext;
         },
 
@@ -94,7 +95,9 @@ var sC = {
 
             var x, result = "";
 
-            phrase = phrase.replace(/[^a-zA-Z]/g, "");
+            phrase = phrase.match(/[a-zA-Z]/g);
+            phrase = phrase.toString();
+            phrase = phrase.replace(/[,]/g, "");
             phrase = phrase.toUpperCase();
 
             // filter out duplicate letter values
