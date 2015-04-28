@@ -6,37 +6,37 @@
 var sC = {
 
         /**
-         * alphabet description
+         * alphabet Plaintext alphabet, all caps A-Z
          * @type {String}
          */
         alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
 
         /**
-         * cipherAlphabet description
+         * cipherAlphabet The substituted alphabet used to create 'secret' message
          * @type {String}
          */
         cipherAlphabet: "",
 
         /**
-         * ciphertext description
+         * ciphertext The 'secret' message
          * @type {String}
          */
         ciphertext: "",
 
         /**
-         * keyword description
+         * keyword The 'word' used to build the cipher alphabet
          * @type {String}
          */
         keyword: "",
 
         /**
-         * plaintext description
+         * plaintext The real, original message
          * @type {String}
          */
         plaintext: "",
 
         /**
-         * buildCipherAlphabet description
+         * buildCipherAlphabet Use keyword to create the substitution alphabet
          */
         buildCipherAlphabet : function buildCipherAlphabet() {
 
@@ -48,8 +48,8 @@ var sC = {
         },
 
         /**
-         * buildKeyword description
-         * @param {String} key description
+         * buildKeyword convert password/phrase into uppercase string of unique letters
+         * @param {String} key A password or passphrase
          */
         buildKeyword : function buildKeyword(key) {
 
@@ -61,9 +61,9 @@ var sC = {
         },
 
         /**
-         * decrypt description
-         * @param  {string} ciphertext description
-         * @return {string}            description
+         * decrypt convert the 'secret' message into a plain message
+         * @param  {string} ciphertext the 'secret' message
+         * @return {string}            the plain message
          */
         decrypt : function decrypt(ciphertext) {
 
@@ -85,8 +85,8 @@ var sC = {
         },
 
         /**
-         * distillUniqueUpperAlphas description
-         * @param {String} phrase description
+         * distillUniqueUpperAlphas Internal utility function, filter out non-alphas, make all caps, remove redundant characters
+         * @param {String} phrase Password/phrase, or keyword and plaintext alphabet
          */
         distillUniqueUpperAlphas: function (phrase) {
 
@@ -108,9 +108,9 @@ var sC = {
         },
 
         /**
-         * encrypt description
-         * @param  {string} plaintext description
-         * @return {string}           description
+         * encrypt convert plaintext into ciphertext
+         * @param  {string} plaintext the plain message
+         * @return {string}           the 'secret' message
          */
         encrypt : function encrypt(plaintext) {
 
