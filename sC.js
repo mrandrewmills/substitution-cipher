@@ -134,5 +134,18 @@ var sC = {
             this.ciphertext = ciphertext;
 
             return ciphertext;
+        },
+
+        /**
+         * ROT rotate plaintext alphabet by x places (e.g. ROT-13)
+         * @param {integer} positions a number from 1 to alphabet.length (26)
+         */
+        ROT : function rotate(positions) {
+
+            "use strict";
+
+            var keyword = this.alphabet.substr(positions);
+
+            this.buildKeyword(keyword);
         }
     };
