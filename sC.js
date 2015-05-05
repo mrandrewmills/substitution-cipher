@@ -147,5 +147,20 @@ var sC = {
             var keyword = this.alphabet.substr(positions);
 
             this.buildKeyword(keyword);
+        },
+
+        /**
+         * removeSpaces eliminates spaces in-between words of ciphertext
+         */
+        removeSpaces : function removeSpaces() {
+
+            "use strict";
+
+            var result = this.ciphertext.replace(/\s/g, "");
+
+            this.ciphertext = result;
+
+            return this.ciphertext;
+
         }
     };
