@@ -150,6 +150,26 @@ var sC = {
         },
 
         /**
+         * addSpaces inserts spaces into ciphertext at desired interval
+         * @param {integer} howMany the interval at which to insert spaces
+         */
+        addSpaces : function addSpaces(howMany) {
+
+            "use strict";
+
+            var regex, result = "";
+
+            regex = new RegExp(".{" + howMany + "}", "g");
+
+            result = this.ciphertext.replace(regex, "$& ");
+
+            this.ciphertext = result;
+
+            return this.ciphertext;
+
+        },
+
+        /**
          * removeSpaces eliminates spaces in-between words of ciphertext
          */
         removeSpaces : function removeSpaces() {
