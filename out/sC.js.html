@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: sC.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: sC.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * sC.js - JavaScript Object for simple monoalphabetic substitution ciphers
+ * @type {Object}
+ * @namespace
+ */
+var sC = {
+
+        /**
+         * alphabet Plaintext alphabet, all caps A-Z
+         * @type {String}
+         */
+        alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+
+        /**
+         * cipherAlphabet The substituted alphabet used to create 'secret' message
+         * @type {String}
+         */
+        cipherAlphabet: "",
+
+        /**
+         * ciphertext The 'secret' message
+         * @type {String}
+         */
+        ciphertext: "",
+
+        /**
+         * keyword The 'word' used to build the cipher alphabet
+         * @type {String}
+         */
+        keyword: "",
+
+        /**
+         * plaintext The real, original message
+         * @type {String}
+         */
+        plaintext: "",
+
+        /**
+         * buildCipherAlphabet Use keyword to create the substitution alphabet
+         */
+        buildCipherAlphabet : function buildCipherAlphabet() {
+
+            "use strict";
+
+            var key = this.keyword + this.alphabet;
+
+            this.cipherAlphabet = this.distillUniqueUpperAlphas(key);
+        },
+
+        /**
+         * buildKeyword convert password/phrase into uppercase string of unique letters
+         * @param {String} key A password or passphrase
+         */
+        buildKeyword : function buildKeyword(key) {
+
+            "use strict";
+
+            this.keyword = this.distillUniqueUpperAlphas(key);
+
+            this.buildCipherAlphabet();
+        },
+
+        /**
+         * decrypt convert the 'secret' message into a plain message
+         * @param  {string} ciphertext the 'secret' message
+         * @return {string}            the plain message
+         */
+        decrypt : function decrypt(ciphertext) {
+
+            "use strict";
+
+            var x, plaintext = "";
+            this.ciphertext = ciphertext;
+
+            for (x = 0; x &lt; ciphertext.length; x += 1) {
+                if (this.alphabet[this.cipherAlphabet.indexOf(ciphertext[x].toUpperCase())] === undefined) {
+                    plaintext += ciphertext[x];
+                } else {
+                    plaintext += this.alphabet[this.cipherAlphabet.indexOf(ciphertext[x].toUpperCase())];
+                }
+            }
+
+            this.plaintext = plaintext;
+
+            return plaintext;
+        },
+
+        /**
+         * distillUniqueUpperAlphas Internal utility function, filter out non-alphas, make all caps, remove redundant characters
+         * @param {String} phrase Password/phrase, or keyword and plaintext alphabet
+         */
+        distillUniqueUpperAlphas: function (phrase) {
+
+            "use strict";
+
+            var x, result = "";
+
+            phrase = phrase.match(/[a-zA-Z]/g);
+            phrase = phrase.toString();
+            phrase = phrase.replace(/[,]/g, "");
+            phrase = phrase.toUpperCase();
+
+            // filter out duplicate letter values
+            for (x = 0; x &lt; phrase.length; x += 1) {
+                if (phrase.indexOf(phrase[x]) === x) {
+                    result += phrase[x];
+                }
+            }
+
+            return result;
+        },
+
+        /**
+         * encrypt convert plaintext into ciphertext
+         * @param  {string} plaintext the plain message
+         * @return {string}           the 'secret' message
+         */
+        encrypt : function encrypt(plaintext) {
+
+            "use strict";
+
+            var x, ciphertext = "";
+            this.plaintext = plaintext;
+
+            for (x = 0; x &lt; plaintext.length; x += 1) {
+
+                if (this.cipherAlphabet[this.alphabet.indexOf(plaintext[x].toUpperCase())] === undefined) {
+                    ciphertext += plaintext[x];
+                } else {
+                    ciphertext += this.cipherAlphabet[this.alphabet.indexOf(plaintext[x].toUpperCase())];
+                }
+            }
+
+            this.ciphertext = ciphertext;
+
+            return ciphertext;
+        },
+
+        /**
+         * ROT rotate plaintext alphabet by x places (e.g. ROT-13)
+         * @param {integer} positions a number from 1 to alphabet.length (26)
+         */
+        ROT : function rotate(positions) {
+
+            "use strict";
+
+            var keyword = this.alphabet.substr(positions);
+
+            this.buildKeyword(keyword);
+        },
+
+        /**
+         * addSpaces inserts spaces into ciphertext at desired interval
+         * @param {integer} howMany the interval at which to insert spaces
+         */
+        addSpaces : function addSpaces(howMany) {
+
+            "use strict";
+
+            var regex, result = "";
+
+            regex = new RegExp(".{" + howMany + "}", "g");
+
+            result = this.ciphertext.replace(regex, "$&amp; ");
+
+            this.ciphertext = result;
+
+            return this.ciphertext;
+
+        },
+
+        /**
+         * removeSpaces eliminates spaces in-between words of ciphertext
+         */
+        removeSpaces : function removeSpaces() {
+
+            "use strict";
+
+            var result = this.ciphertext.replace(/\s/g, "");
+
+            this.ciphertext = result;
+
+            return this.ciphertext;
+
+        }
+    };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="sC.html">sC</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha13</a> on Sat Aug 01 2015 09:49:58 GMT-0400 (EDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
